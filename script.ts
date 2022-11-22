@@ -1,27 +1,16 @@
-let c = document.getElementById('c');
+// @ts-ignore
+import Cookies from "/node_modules/js-cookie/dist/js.cookie.mjs"
+
+
+let c = document.querySelector('canvas');
 var ctx = c.getContext('2d');
 
-if(window.location.href == 'https://replit.com/@JosiahHamm/Toilet-Paper-Factory?v=1'){
+const cw = 1000;
+const ch = 600;
+c.width = cw
+c.height = ch
 
-	cw = 600;
-	ch = 200;
-	c.width = cw
-	c.height = ch
-	//window.innerWidth
-
-	ctx.scale( cw / 1000, ch / 600)
-}else{
-	cw = 1000;
-	ch = 600;
-	//window.innerWidth
-	c.width = cw
-	c.height = ch
-
-	ctx.scale( 1, 1)
-}
-
-
-game = {
+let game = {
   'treeGrowthSpeed':5000,
   'harvestSpeed':1000,
 	'truckSpeed':35,
@@ -34,13 +23,13 @@ game = {
   
 };
 
-world = {
+let world = {
 	'gravity':2,
 	'drag':0.94,
 	'keyDown':false,
 }
 
-prices = {
+let prices = {
 	'treeGrowthSpeed':10,
   'harvestSpeed':10,
 	'truckSpeed':80,
@@ -51,66 +40,66 @@ prices = {
 	'treeQuality':15,
 }
 
-truck = {
-  'image' : document.getElementById('truck'),
-	'filledImage' : document.getElementById('filledTruck'),
+const truck = {
+  'image' : <HTMLImageElement>document.getElementById('truck'),
+	'filledImage' :<HTMLImageElement>document.getElementById('filledTruck'),
   'x':800,
   'y':10,
   'anim':0,
   'filled':true,
 };
 
-woodChipper = {
-  'image':document.getElementById('woodChipper'),
+const woodChipper = {
+  'image':<HTMLImageElement>document.getElementById('woodChipper'),
   'x':200,
   'y':100,
   'anim':0,
 }
 
-boiler = {
-  'image':document.getElementById('boiler'),
+const boiler = {
+  'image':<HTMLImageElement>document.getElementById('boiler'),
   'x':330,
   'y':100,
   'anim':0,
 }
 
-cutter = {
-  'image':document.getElementById('cutter'),
+const cutter = {
+  'image':<HTMLImageElement>document.getElementById('cutter'),
   'x':540,
   'y':100,
   'anim':0,
 }
 
-paperPress = {
-  'image':document.getElementById('paperPress'),
+const paperPress = {
+  'image':<HTMLImageElement>document.getElementById('paperPress'),
   'x':450,
   'y':100,
   'anim':0,
 }
 
-tp = {
-	'image':document.getElementById('tp'),
+const tp = {
+	'image':<HTMLImageElement>document.getElementById('tp'),
   'arr':[[610,140]]
 };
 
-trees = {
-	'image':document.getElementById('tree'),
+const trees = {
+	'image':<HTMLImageElement>document.getElementById('tree'),
   'arr':[[100,200]]
 };
 
-upgrades = {
-	'image' :document.getElementById('upgrades'),
+const upgrades = {
+	'image' :<HTMLImageElement>document.getElementById('upgrades'),
 	'x':220,
 	'y':225,
 	'w':500,
 	'h':90,
 }
 
-audio = {
-	'click' :document.getElementById('click'),
-	'coin':document.getElementById('coin'),
-	'mute':document.getElementById('mute'),
-	'unmute':document.getElementById('unmute'),
+const audio = {
+	'click' :<HTMLAudioElement>document.getElementById('click'),
+	'coin':<HTMLAudioElement>document.getElementById('coin'),
+	'mute':<HTMLAudioElement>document.getElementById('mute'),
+	'unmute':<HTMLAudioElement>document.getElementById('unmute'),
 	'muted':false,
 	changeState(){
 
@@ -171,7 +160,7 @@ function drawBoiler(){
 
 
 function drawTP(){
-	for( i in tp.arr){
+	for(let i in tp.arr){
 		ctx.drawImage(tp.image,tp.arr[i][0],tp.arr[i][1])
 	}
 }
@@ -257,7 +246,7 @@ function drawCutter(){
 
 function drawTrees(){
   ctx.fillStyle='brown';
-  for( i in trees.arr){
+  for(let i in trees.arr){
     ctx.drawImage(trees.image,trees.arr[i][0],trees.arr[i][1],60,100)
 
   }
@@ -270,10 +259,10 @@ function loadProgress(){
 			window.alert('No savefile created')
 		}else{
 
-			tempData = JSON.parse( Cookies.get('data') )
+			let tempData = JSON.parse( Cookies.get('data') )
 			game = tempData[0]
 			prices = tempData[1]
-			audio.loaded = tempData[2]
+			//audio.loaded = tempData[2]
 			window.alert('Progress loaded')
 
 		}
@@ -284,7 +273,7 @@ function loadProgress(){
 
 function saveProgress(){
 	if(confirm('Do you want to save your Progress')){
-		Cookies.set('data',JSON.stringify( [game,prices,audio.loaded] ) )
+		Cookies.set('data',JSON.stringify( [game,prices] ) )
 		window.alert('Progress saved')
 	}else{
 		window.alert('Save aborted')
@@ -356,7 +345,7 @@ function truckLoop(){
 
   };
 
-	if (truck.y <= 160 & truck.y >= 150){
+	if (truck.y <= 160 && truck.y >= 150){
 		tp.arr = [];
 	}
 
@@ -378,7 +367,7 @@ function truckLoop(){
 };
 
 function tpLoop(){
-	for(i in tp.arr){
+	for(let i in tp.arr){
 		if(tp.arr[i][1] <= 180){
 			tp.arr[i][0] += tp.arr[i][2];
 			tp.arr[i][1] += world.gravity;
@@ -447,8 +436,8 @@ function keydown(e){
   };
 };
 
-function keyup(e){
-	if(e.keyCode == 32 & world.keyDown){
+function keyup(e:KeyboardEvent){
+	if(e.keyCode == 32 && world.keyDown){
 		world.keyDown = false;
 
 		for(var i = 0;i<game.clickMultiplier;i++){
@@ -460,13 +449,13 @@ function keyup(e){
 
 c.onclick = function (e){
     
-	ex = e.offsetX;
-	ey = e.offsetY;
+	let ex = e.offsetX;
+	let ey = e.offsetY;
 
 
 	if(gameOn()){
-		if(ey>=350 & ey <=380){
-			if(ex >= 200 & ex <= 300){
+		if(ey>=350 && ey <=380){
+			if(ex >= 200 && ex <= 300){
 				audio.click.play()
 				// t1 button
 				if(game.money >= prices.treeGrowthSpeed){
@@ -477,7 +466,7 @@ c.onclick = function (e){
 				}else{
 					window.alert('insufficient funds')
 				}
-			}else  if(ex >= 350 & ex <= 450){
+			}else  if(ex >= 350 && ex <= 450){
 				audio.click.play()
 				// t2 button
 				if(game.money >= prices.truckSpeed){
@@ -488,7 +477,7 @@ c.onclick = function (e){
 				}else{
 					window.alert('insufficient funds')
 				}
-			}else  if(ex >= 500 & ex <= 600){
+			}else  if(ex >= 500 && ex <= 600){
 				audio.click.play()
 				// t3 button
 				if(game.money >= prices.factorySpeed){
@@ -499,7 +488,7 @@ c.onclick = function (e){
 				}else{
 					window.alert('insufficient funds')
 				}
-			}else  if(ex >= 650 & ex <= 750){
+			}else  if(ex >= 650 && ex <= 750){
 				audio.click.play()
 				// t4 button
 				if(game.money >= prices.clickMultiplier){
@@ -511,8 +500,8 @@ c.onclick = function (e){
 					window.alert('insufficient funds')
 				}
 			}
-		}else if(ey>=450 & ey<=480){
-			if(ex >= 200 & ex <= 300){
+		}else if(ey>=450 && ey<=480){
+			if(ex >= 200 && ex <= 300){
 				audio.click.play()
 				// b1 button
 				if(game.money >= prices.harvestSpeed){
@@ -523,7 +512,7 @@ c.onclick = function (e){
 				}else{
 					window.alert('insufficient funds')
 				}
-			}else  if(ex >= 350 & ex <= 450){
+			}else  if(ex >= 350 && ex <= 450){
 				audio.click.play()
 				// b2 button
 				if(game.money >= prices.priceMultiplier){
@@ -534,7 +523,7 @@ c.onclick = function (e){
 				}else{
 					window.alert('insufficient funds')
 				}
-			}else  if(ex >= 500 & ex <= 600){
+			}else  if(ex >= 500 && ex <= 600){
 				audio.click.play()
 				// b3 button
 				if(game.money >= prices.workerSpeed){
@@ -545,7 +534,7 @@ c.onclick = function (e){
 				}else{
 					window.alert('insufficient funds')
 				}
-			}else  if(ex >= 650 & ex <= 750){
+			}else  if(ex >= 650 && ex <= 750){
 				audio.click.play()
 				// b4 button
 				if(game.money >= prices.treeQuality){
@@ -557,19 +546,19 @@ c.onclick = function (e){
 					window.alert('insufficient funds')
 				}
 			}
-		}else if(ey >=560 & ey <= 590){
+		}else if(ey >=560 && ey <= 590){
 
-				if(ex >= 540 & ex <=640){
+				if(ex >= 540 && ex <=640){
 					audio.coin.play()
 					loadProgress()
-				}else if(ex >= 660 & ex <= 760){
+				}else if(ex >= 660 && ex <= 760){
 					audio.coin.play()
 					saveProgress()
 				}
 
 	//ctx.drawImage(this.mute,950,5,40,40)
 			
-		}else if(ex >=950 & ex <=990 & ey >= 5 & ey <=45){
+		}else if(ex >=950 && ex <=990 && ey >= 5 && ey <=45){
 			audio.changeState()
 		}
 	}
