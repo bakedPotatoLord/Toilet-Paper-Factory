@@ -5,7 +5,7 @@
       "module": "ESNext",
       "lib":["DOM","ESNext"],
       "declaration": false,
-      "outDir": "./build",
+      "outDir": "./",
       "esModuleInterop": true,
       "skipLibCheck": true,
       "moduleResolution": "node"
