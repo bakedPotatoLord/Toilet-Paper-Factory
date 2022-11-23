@@ -1,15 +1,25 @@
 // @ts-ignore
 import Cookies from "/node_modules/js-cookie/dist/js.cookie.mjs"
 
+
 let c = document.querySelector('canvas');
-var ctx = c.getContext('2d');
+export var ctx = c.getContext('2d');
 
 const cw = 1000;
 const ch = 600;
 c.width = cw
 c.height = ch
 
-let game = {
+
+async function getImage(src:string):Promise<HTMLImageElement>{
+	let im = new Image()
+	im.src = src
+	return new Promise((res)=>im.onload = () => res(im))
+}
+
+
+
+export let game = {
   'treeGrowthSpeed':5000,
   'harvestSpeed':1000,
 	'truckSpeed':35,
@@ -22,13 +32,13 @@ let game = {
   
 };
 
-let world = {
+export let world = {
 	'gravity':2,
 	'drag':0.94,
 	'keyDown':false,
 }
 
-let prices = {
+export let prices = {
 	'treeGrowthSpeed':10,
   'harvestSpeed':10,
 	'truckSpeed':80,
@@ -39,66 +49,66 @@ let prices = {
 	'treeQuality':15,
 }
 
-const truck = {
-  'image' : <HTMLImageElement>document.getElementById('truck'),
-	'filledImage' :<HTMLImageElement>document.getElementById('filledTruck'),
+export const truck = {
+  'image' : await getImage('images/truck.png'),
+	'filledImage' :await getImage('images/filledTruck.png'),
   'x':800,
   'y':10,
   'anim':0,
   'filled':true,
 };
 
-const woodChipper = {
-  'image':<HTMLImageElement>document.getElementById('woodChipper'),
+export const woodChipper = {
+  'image':await getImage('images/chipper.png'),
   'x':200,
   'y':100,
   'anim':0,
 }
 
-const boiler = {
-  'image':<HTMLImageElement>document.getElementById('boiler'),
+export const boiler = {
+  'image':await getImage("images/boiler.png"),
   'x':330,
   'y':100,
   'anim':0,
 }
 
-const cutter = {
-  'image':<HTMLImageElement>document.getElementById('cutter'),
+export const cutter = {
+  'image':await getImage('images/cutter.png'),
   'x':540,
   'y':100,
   'anim':0,
 }
 
-const paperPress = {
-  'image':<HTMLImageElement>document.getElementById('paperPress'),
+export const paperPress = {
+  'image':await getImage('images/paperPress.png'),
   'x':450,
   'y':100,
   'anim':0,
 }
 
-const tp = {
-	'image':<HTMLImageElement>document.getElementById('tp'),
+export const tp = {
+	'image':await getImage('images/tp.png'),
   'arr':[[610,140]]
 };
 
-const trees = {
-	'image':<HTMLImageElement>document.getElementById('tree'),
+export const trees = {
+	'image':await getImage('images/tree.png'),
   'arr':[[100,200]]
 };
 
-const upgrades = {
-	'image' :<HTMLImageElement>document.getElementById('upgrades'),
+export const upgrades = {
+	'image' :await getImage('images/upgrades.png'),
 	'x':220,
 	'y':225,
 	'w':500,
 	'h':90,
 }
 
-const audio = {
-	'click' :<HTMLAudioElement>document.getElementById('click'),
-	'coin':<HTMLAudioElement>document.getElementById('coin'),
-	'mute':<HTMLAudioElement>document.getElementById('mute'),
-	'unmute':<HTMLAudioElement>document.getElementById('unmute'),
+export const audio = {
+	'click' :new Audio("/audio/click.wav"),
+	'coin':new Audio("/audio/coin.wav"),
+	'mute':await getImage('images/mute.png'),
+	'unmute':await getImage('images/unmute.png'),
 	'muted':false,
 	changeState(){
 
@@ -120,6 +130,7 @@ const audio = {
 		}
 	}
 }
+
 
 function background(){
   ctx.clearRect(0,0,1000,600);
