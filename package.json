@@ -2,5 +2,8 @@
   "dependencies": {
     "js-cookie": "^3.0.1",
     "serve": "^14.1.2"
+  },
+  "devDependencies": {
+    "typescript": "^4.9.3"
   }
 }
