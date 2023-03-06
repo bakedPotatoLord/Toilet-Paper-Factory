@@ -1,5 +1,7 @@
-//@ts-ignore
+
 import Cookies from "js-cookie"
+
+
 
 
 let c = document.querySelector('canvas');
@@ -50,8 +52,8 @@ export let prices = {
 }
 
 export const truck = {
-  'image' : await getImage('images/truck.png'),
-	'filledImage' :await getImage('images/filledTruck.png'),
+  'image' : await getImage((await import('./assets/truck.png')).default),
+	'filledImage' :await getImage((await import('./assets/filledTruck.png')).default),
   'x':800,
   'y':10,
   'anim':0,
@@ -59,45 +61,45 @@ export const truck = {
 };
 
 export const woodChipper = {
-  'image':await getImage('images/chipper.png'),
+  'image':await getImage((await import('./assets/chipper.png')).default),
   'x':200,
   'y':100,
   'anim':0,
 }
 
 export const boiler = {
-  'image':await getImage("images/boiler.png"),
+  'image':await getImage((await import("./assets/boiler.png")).default),
   'x':330,
   'y':100,
   'anim':0,
 }
 
 export const cutter = {
-  'image':await getImage('images/cutter.png'),
+  'image':await getImage((await import('./assets/cutter.png')).default),
   'x':540,
   'y':100,
   'anim':0,
 }
 
 export const paperPress = {
-  'image':await getImage('images/paperPress.png'),
+  'image':await getImage((await import('./assets/paperPress.png')).default),
   'x':450,
   'y':100,
   'anim':0,
 }
 
 export const tp = {
-	'image':await getImage('images/tp.png'),
+	'image':await getImage((await import('./assets/tp.png')).default),
   'arr':[[610,140]]
 };
 
 export const trees = {
-	'image':await getImage('images/tree.png'),
+	'image':await getImage((await import('./assets/tree.png')).default),
   'arr':[[100,200]]
 };
 
 export const upgrades = {
-	'image' :await getImage('images/upgrades.png'),
+	'image' :await getImage((await import('./assets/upgrades.png')).default),
 	'x':220,
 	'y':225,
 	'w':500,
@@ -105,10 +107,10 @@ export const upgrades = {
 }
 
 export const audio = {
-	'click' :new Audio("/audio/click.wav"),
-	'coin':new Audio("/audio/coin.wav"),
-	'mute':await getImage('images/mute.png'),
-	'unmute':await getImage('images/unmute.png'),
+	'click' :new Audio((await import("./assets/click.wav")).default),
+	'coin':new Audio((await import("./assets/coin.wav")).default),
+	'mute':await getImage((await import('./assets/mute.png')).default),
+	'unmute':await getImage((await import('./assets/unmute.png')).default),
 	'muted':false,
 	changeState(){
 
