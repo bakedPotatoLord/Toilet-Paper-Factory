@@ -1,5 +1,5 @@
 //@ts-ignore
-import Cookies from "./node_modules/js-cookie/dist/js.cookie.mjs"
+import Cookies from "js-cookie/dist/js.cookie.mjs"
 
 
 let c = document.querySelector('canvas');
