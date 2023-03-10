@@ -1,6 +1,8 @@
 
 //import Cookies from "js-cookie"
 
+import { audio } from './audio';
+
 declare var Cookies:any
 
 
@@ -13,7 +15,7 @@ c.width = cw
 c.height = ch
 
 
-async function getImage(src:string):Promise<HTMLImageElement>{
+export async function getImage(src:string):Promise<HTMLImageElement>{
 	let im = new Image()
 	im.src = src
 	return new Promise((res)=>im.onload = () => res(im))
@@ -106,32 +108,7 @@ export const upgrades = {
 	'h':90,
 }
 
-export const audio = {
-	'click' :new Audio((await import("./assets/click.wav")).default),
-	'coin':new Audio((await import("./assets/coin.wav")).default),
-	'mute':await getImage((await import('./assets/mute.png')).default),
-	'unmute':await getImage((await import('./assets/unmute.png')).default),
-	'muted':false,
-	changeState(){
 
-		if(this.muted){
-			this.muted = false;
-			this.click.volume = 1;
-			this.coin.volume = 1;
-		}else{
-			this.muted = true;
-			this.click.volume = 0;
-			this.coin.volume = 0;
-		}
-	},
-	draw(){
-		if(this.muted){
-			ctx.drawImage(this.mute,950,5,40,40)
-		}else{
-			ctx.drawImage(this.unmute,950,5,40,40)
-		}
-	}
-}
 
 
 function background(){
@@ -317,9 +294,13 @@ function moneyCalc(){
 function gameOn(){
   return true;
 };
-setTimeout(()=>{
-		console.log('window loaded');
-		c.click()
+
+//window.onload = async()=>{
+
+	console.log('window loaded');
+
+
+		//c.click()
 		truckLoop()
 		generateTree()
 		window.setInterval(displayLoop,40);
@@ -327,11 +308,9 @@ setTimeout(()=>{
 		window.setInterval(chipperLoop,40);
 		window.setInterval(tpLoop,30);
 		window.setTimeout(harvestTreeLoop,game.harvestSpeed);
-	},
-	1000
-)
-  
 
+//}
+  
 
 function harvestTreeLoop(){
   if(gameOn()){
@@ -421,7 +400,7 @@ function displayLoop(){
   if(gameOn()){
     background();
     drawUpgrade()
-		audio.draw()
+		audio.draw(ctx) 
 
 		drawWoodChipper()
 		
@@ -450,7 +429,7 @@ function keydown(e){
 };
 
 function keyup(e:KeyboardEvent){
-	if(e.keyCode == 32 && world.keyDown){
+	if(e.keyCode == 32 && world.keyDown){   
 		world.keyDown = false;
 
 		for(var i = 0;i<game.clickMultiplier;i++){
@@ -464,8 +443,7 @@ c.onclick = function (e){
     
 	let ex = e.offsetX;
 	let ey = e.offsetY;
-
-	displayLoop()
+  
 
 	if(gameOn()){
 		if(ey>=350 && ey <=380){
